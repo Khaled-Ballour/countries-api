@@ -50,6 +50,11 @@ const renderCountry = function (data, className = '') {
   countriesContainer.style.opacity = 1;
 };
 
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentHTML('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
+
 // getCountryAndNeighbor('germany');
 
 const getCountry = function (country) {
@@ -64,7 +69,14 @@ const getCountry = function (country) {
     .then(response => response.json())
     .then(data => {
       renderCountry(data[0], 'neighbour');
-    });
+    })
+    .catch(err => {
+      console.log(err);
+      renderError(`Something went Error ${err}`);
+    })
+    .finally();
 };
 
-getCountry('georgia');
+btn.addEventListener('click', function (e) {
+  getCountry('georgia');
+});
